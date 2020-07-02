@@ -1,0 +1,845 @@
+{
+	"info": {
+		"_postman_id": "5db3806d-cd05-411b-a49a-f259b820b9aa",
+		"name": "Trello",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "User",
+			"item": [
+				{
+					"name": "Register",
+					"item": [
+						{
+							"name": "username cannot be empty",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "50e6ef96-42fa-4e9b-a326-c065a5e4af5f",
+										"exec": [
+											"pm.test('status: 422', ()=>{\r",
+											"    pm.response.to.have.status(422)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "username cannot be larger than 50",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "f1fa625d-6d35-4c73-9d2b-2e626f9ba9b7",
+										"exec": [
+											"pm.test('status: 422', ()=>{\r",
+											"    pm.response.to.have.status(422)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"sagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasgasagasgasgagagasga\"\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "password cannot be empty",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "d4c2af31-a776-4075-bb0b-7514b71acb67",
+										"exec": [
+											"pm.test('status: 422', ()=>{\r",
+											"    pm.response.to.have.status(422)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"sagasgasga\"\n\t\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "password should is not same",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "0a361594-ad12-48f2-acda-e6251cb2cb20",
+										"exec": [
+											"pm.test('status: 422', ()=>{\r",
+											"    pm.response.to.have.status(422)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"sagasgasga\",\n\t\"password\":\"123456\",\n\t\"rePassword\":\"12346\"\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						},
+						{
+							"name": "register successful",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "44c9d0f0-f105-4004-8ca8-57914f97766c",
+										"exec": [
+											"const Ajv = require('ajv');\r",
+											"const ajv = new Ajv({logger:console});\r",
+											"\r",
+											"const schema = {\r",
+											"    required:['id', 'name', 'createdAt'],\r",
+											"    properties:{\r",
+											"        id:{\r",
+											"            type:'number'\r",
+											"        },\r",
+											"        name:{\r",
+											"            type:'string'\r",
+											"        },\r",
+											"        createdAt:{\r",
+											"            type:'string',\r",
+											"            formati:'date-time'\r",
+											"        }\r",
+											"    }\r",
+											"}\r",
+											"pm.test('status: 201', ()=>{\r",
+											"    pm.response.to.have.status(201)\r",
+											"})\r",
+											"\r",
+											"pm.test('schema',()=>{\r",
+											"    pm.expect(ajv.validate(schema, pm.response.json)).to.be.true;\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"ggg\",\n\t\"password\":\"123\",\n\t\"rePassword\":\"123\"\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/register",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"register"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "login",
+					"item": [
+						{
+							"name": "login successful",
+							"event": [
+								{
+									"listen": "test",
+									"script": {
+										"id": "47c8f59f-7389-4e15-b919-516257ffe2b3",
+										"exec": [
+											"// pm.test('status: 201', ()=>{\r",
+											"//     pm.response.to.have.status(201)\r",
+											"// })"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"Congyi\",\n\t\"password\":\"12345\"\n\t\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/user/login",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"user",
+										"login"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "Test",
+					"item": [
+						{
+							"name": "auth",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "formdata",
+									"formdata": []
+								},
+								"url": {
+									"raw": "{{baseUrl}}/test/auth",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"test",
+										"auth"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"auth": {
+						"type": "apikey",
+						"apikey": [
+							{
+								"key": "value",
+								"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkNvbmd5aSIsImlhdCI6MTU5MTU3ODY4OH0.-kRyKh88NnWFz9zeW45iNi2xfgobrWV3JQjA9fxHquU",
+								"type": "string"
+							},
+							{
+								"key": "key",
+								"value": "authorization",
+								"type": "string"
+							}
+						]
+					},
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "acb630a3-99c6-4e11-bd2d-73cb7916353b",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "54673b0d-7630-46ee-a553-1b11bad86429",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "Board",
+			"item": [
+				{
+					"name": "addBoard",
+					"item": [
+						{
+							"name": "add board successfully",
+							"request": {
+								"method": "POST",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"ECE 2534\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/board",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"board"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "updateBoard",
+					"item": [
+						{
+							"name": "update board scussesfully",
+							"request": {
+								"method": "PUT",
+								"header": [],
+								"body": {
+									"mode": "raw",
+									"raw": "{\n\t\"name\":\"ECE3574\"\n}",
+									"options": {
+										"raw": {
+											"language": "json"
+										}
+									}
+								},
+								"url": {
+									"raw": "{{baseUrl}}/board/13",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"board",
+										"13"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "b5fb489d-019e-4b3c-8795-fb11e487effc",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "1ad6a3fb-2028-4ac0-a51b-a70fc8f93f31",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "getBoard",
+					"item": [
+						{
+							"name": "get board scussesfully",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/board/13",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"board",
+										"13"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "deleteBoard",
+					"item": [
+						{
+							"name": "delete board scussesfully",
+							"event": [
+								{
+									"listen": "prerequest",
+									"script": {
+										"id": "0afc9cf8-2c95-4a51-b4d7-1e203e43461b",
+										"exec": [
+											"\r",
+											"pm.sendRequest({\r",
+											"    url:`${pm.collectionVariables.get(\"baseUrl\")}/board`,\r",
+											"    method:'POST',\r",
+											"    header:[\r",
+											"        {\r",
+											"            key:'authorization',\r",
+											"            value:`${pm.collectionVariables.get('token')}`\r",
+											"        },\r",
+											"        {\r",
+											"            key:'Content-Type',\r",
+											"            value:'application/json'\r",
+											"        }\r",
+											"    ],\r",
+											"    body:{\r",
+											"        mode:'raw',\r",
+											"        raw: JSON.stringify({\r",
+											"            name:\"testName\"\r",
+											"        })\r",
+											"    }\r",
+											"}, (err, res)=>{\r",
+											"    if(err){console.log(err)}\r",
+											"\r",
+											"    console.log(res.json());\r",
+											"    let {id} = res.json();\r",
+											"    pm.collectionVariables.set('deleteId', id)\r",
+											"})"
+										],
+										"type": "text/javascript"
+									}
+								}
+							],
+							"request": {
+								"method": "DELETE",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/board/{{deleteId}}",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"board",
+										"{{deleteId}}"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"event": [
+						{
+							"listen": "prerequest",
+							"script": {
+								"id": "dbb844a6-29cc-4c62-a94f-8e8c491a0b12",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						},
+						{
+							"listen": "test",
+							"script": {
+								"id": "878f52b0-6d5f-4aba-bc3d-a679361bc82e",
+								"type": "text/javascript",
+								"exec": [
+									""
+								]
+							}
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				},
+				{
+					"name": "getBoards",
+					"item": [
+						{
+							"name": "get boards scussesfully",
+							"request": {
+								"method": "GET",
+								"header": [],
+								"url": {
+									"raw": "{{baseUrl}}/board",
+									"host": [
+										"{{baseUrl}}"
+									],
+									"path": [
+										"board"
+									]
+								}
+							},
+							"response": []
+						}
+					],
+					"protocolProfileBehavior": {},
+					"_postman_isSubFolder": true
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MSwibmFtZSI6IkNvbmd5aSIsImlhdCI6MTU5MjE3NTc4OH0.-CYekH87qB7fVoDirN8Qp-Q_PDuTe2-mpb7Q6445lK4",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "authorization",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "d63a4dd6-36f3-4a8b-b52d-43cb9ed4ba41",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "fd1314e0-065e-4daf-8b1c-3fdcb2f87716",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "BoardList",
+			"item": [
+				{
+					"name": "addBoardList",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"boardId\": 17,\r\n    \"name\":\"testBoard\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{baseUrl}}/list",
+							"host": [
+								"{{baseUrl}}"
+							],
+							"path": [
+								"list"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getBoardLists",
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": ""
+						}
+					},
+					"response": []
+				}
+			],
+			"auth": {
+				"type": "apikey",
+				"apikey": [
+					{
+						"key": "value",
+						"value": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6OSwibmFtZSI6ImdnZ2ciLCJpYXQiOjE1OTI5NTc0NzN9.iDLLu_YJyvEhkTdFlz8IvrrJphirUfaEfZP9lYDPccU",
+						"type": "string"
+					},
+					{
+						"key": "key",
+						"value": "authorization",
+						"type": "string"
+					}
+				]
+			},
+			"event": [
+				{
+					"listen": "prerequest",
+					"script": {
+						"id": "b2e26e19-fa65-4fcb-a6b1-de29e651466e",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				},
+				{
+					"listen": "test",
+					"script": {
+						"id": "7c869243-9c88-4dc4-ae52-8964fa6dcdd3",
+						"type": "text/javascript",
+						"exec": [
+							""
+						]
+					}
+				}
+			],
+			"protocolProfileBehavior": {}
+		},
+		{
+			"name": "password cannot be empty",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "e39455b3-0b45-4435-95c6-c0a14fe33e24",
+						"exec": [
+							"pm.test('status 422', ()=>{\r",
+							"    pm.response.to.have.status(422)\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/test/user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"test",
+						"user"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "register successful",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "0d7beee2-b78c-4a32-bf25-ee4892270a31",
+						"exec": [
+							"pm.test('status 201', ()=>{\r",
+							"    pm.response.to.have.status(201)\r",
+							"})\r",
+							"\r",
+							"const Ajv = require('ajv');\r",
+							"const ajv = new Ajv({logger:console});\r",
+							"const schema = {\r",
+							"    require:[\"id\", \"name\"],\r",
+							"    properties:{\r",
+							"        id:{\r",
+							"            type:\"number\"\r",
+							"        },\r",
+							"        name:{\r",
+							"            type:\"string\"\r",
+							"        }\r",
+							"    }\r",
+							"}\r",
+							"\r",
+							"// let data1 = {\r",
+							"//         \"id\":5,\r",
+							"//         \"name\":\"aaaa\",\r",
+							"//     }\r",
+							"\r",
+							"pm.test('schema is valid',()=>{\r",
+							"    pm.expect(ajv.validate(schema,pm.response.json())).to.be.true;\r",
+							"})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n\t\"name\":\"{{$randomFullName}}\",\n\t\"id\":1\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "{{baseUrl}}/test/user",
+					"host": [
+						"{{baseUrl}}"
+					],
+					"path": [
+						"test",
+						"user"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"id": "98dde081-72a3-4081-ac6f-ae7016cc9c50",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"id": "11d90212-8ab5-4967-adbd-13e9695fed2b",
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"id": "26f2e282-cd15-4156-a919-6aefd93fb607",
+			"key": "baseUrl",
+			"value": ""
+		},
+		{
+			"id": "fdffe02e-da31-4de8-a215-51787081f02c",
+			"key": "token",
+			"value": ""
+		},
+		{
+			"id": "5ff55798-0d3a-4edd-a94a-8a8995d7ec70",
+			"key": "deleteId",
+			"value": ""
+		}
+	],
+	"protocolProfileBehavior": {}
+}
