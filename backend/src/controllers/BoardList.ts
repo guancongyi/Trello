@@ -27,11 +27,20 @@ export class BoardListController{
     ){
         let {boardId, name} = body;
         await getAndValidateBoard(boardId, ctx.userInfo.id);
+        
+        let maxOrderBoardList = await BoardListModel.findOne({
+            where:{
+                boardId
+            },
+            order:[['order', 'desc']]
+        })
+
+        // console.log(maxOrderBoardList)
         let boardList = new BoardListModel();
         boardList.userId = ctx.userInfo.id;
         boardList.boardId = boardId;
         boardList.name = name;
-        // boardList.order = 65535;
+        boardList.order = maxOrderBoardList?maxOrderBoardList.order+65535:65535;
         await boardList.save();
         ctx.status = 201;
         return boardList;
@@ -74,10 +83,12 @@ export class BoardListController{
         @Body() body: PutUpdateListBody
     ){
         let {name, order, boardId} = body;
+        
         let boardList = await getAndValidateBoardList(id, ctx.userInfo.id)
+        // console.log(name,id, boardId, boardList.order)
         boardList.boardId = boardId || boardList.boardId;
-        boardList.boardId = order || boardList.order;
-        boardList.boardId = name || boardList.name;
+        boardList.order = order || boardList.order;
+        boardList.name = name || boardList.name;
         await boardList.save();
         ctx.status = 204;
         return;

@@ -75,3 +75,26 @@ export const getLists = boardId=>{
         }
     })
 }
+
+// add a new list
+export const postList = data =>{
+    return axios({
+        method:'post',
+        url:'/list',
+        data
+    })
+}
+
+// update a list
+export const putList = data => {
+    console.log(data)
+    return axios({
+        method:'put',
+        url:'/list/'+data.id,
+        data:{
+            boardId:data.boardId,
+            name:data.name,
+            order:data.order
+        }
+    })
+}

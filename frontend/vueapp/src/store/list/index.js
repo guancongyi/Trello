@@ -9,6 +9,17 @@ export default {
     mutations:{
         updateLists:(state, datas) => {
             state.lists = [...state.lists, ...datas];
+        },
+        addList: (state, data) =>{
+            state.lists = [...state.lists, data];
+        },
+        updateList: (state, data) =>{
+            state.lists = state.lists.map(list => {
+                if (list.id === data.id){
+                    return {...list, ...data};
+                }
+                return list;
+            });
         }
     },
     getters:{
@@ -19,6 +30,25 @@ export default {
             try {
                 let rs = await api.getLists(boardId);
                 commit('updateLists', rs.data);
+                return rs;
+            } catch (error) {
+                throw error;
+            }
+        },
+        postList: async ({commit}, data)=>{
+            try {
+                let rs = await api.postList(data);
+                commit('addList', rs.data)
+                return rs;
+            } catch (error) {
+                throw error;
+            }
+        },
+        editList:async ({commit}, data) => {
+            try {
+                let rs = await api.putList(data);
+                // console.log(data)
+                commit('updateList', data)
                 return rs;
             } catch (error) {
                 throw error;
