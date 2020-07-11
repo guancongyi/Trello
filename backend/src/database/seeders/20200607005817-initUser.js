@@ -14,9 +14,9 @@ module.exports = {
       }], {});
     */
    let md5 = crypto.createHash('md5');
-   let password = md5.update('12345').digest('hex');
+   let password = md5.update('123').digest('hex');
    let date = new Date()
-    return queryInterface.bulkInsert('User', ['Congyi','mt','Zmouse'].map((name,index)=>{
+    return queryInterface.bulkInsert('User', ['ggg','Congyi','mt','Zmouse'].map((name,index)=>{
       return {
         id:index+1,
         name,

@@ -22,7 +22,7 @@
 
 <script>
 export default {
-    name:'THeader',
+    name:'TPopup',
     props:{
         title:{
             type:String,

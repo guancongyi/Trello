@@ -5,19 +5,37 @@
 
     <div class="list" ref="list">
       <div class="list-header" ref="listHeader">
-        <textarea class="form-field-input" 
-        ref="newBoardListName" @mousedown.prevent
-        @blur="editListName">{{data.name}}</textarea>
+        <textarea
+          class="form-field-input"
+          ref="newBoardListName"
+          @mousedown.prevent
+          @blur="editListName"
+        >{{data.name}}</textarea>
         <div class="extras-menu" @mousedown.prevent>
           <span class="icon icon-more"></span>
         </div>
       </div>
 
-      <!-- <div class="list-cards">
-        <div class="list-card-add-form">
-          <textarea class="form-field-input" placeholder="为这张卡片添加标题……"></textarea>
+      <div class="list-card" v-for="card of cards" :key="card.id">
+        <div v-if="card.coverPath"
+          class="list-card-cover"
+          :style="'background-image: url('+card.coverPath+');'"
+        ></div>
+        <div class="list-card-title">{{card.name}}</div>
+        <div class="list-card-badges">
+          <div class="badge" v-if="card.description">
+            <span class="icon icon-description"></span>
+          </div>
+          <div class="badge" v-if="card.commentCount>0">
+            <span class="icon icon-comment"></span>
+            <span class="text">{{card.commentCount}}</span>
+          </div>
+          <div class="badge" v-if="card.attachments.length > 0">
+            <span class="icon icon-attachment"></span>
+            <span class="text">{{card.attachments.length}}</span>
+          </div>
         </div>
-      </div>-->
+      </div>
 
       <div class="list-footer">
         <div class="list-card-add">
@@ -52,6 +70,16 @@ export default {
         downElementY: 0
       }
     };
+  },
+  computed: {
+    cards() {
+      return this.$store.getters["card/getCards"](this.data.id);
+    }
+  },
+  async created() {
+    if (!this.cards.length) {
+      await this.$store.dispatch("card/getCards", this.data.id);
+    }
   },
   mounted() {
     this.$refs.listHeader.addEventListener("mousedown", this.dragDown);
@@ -114,8 +142,8 @@ export default {
           this.$el.appendChild(listElement);
           this.$emit("dragEnd", {
             component: this,
-            x:e.clientX,
-            y:e.clientY
+            x: e.clientX,
+            y: e.clientY
           });
         } else {
           if (e.path.includes(this.$refs.newBoardListName)) {
@@ -126,14 +154,14 @@ export default {
         this.drag.isDrag = false;
       }
     },
-    async editListName(){
-      let {value, innerHTML} = this.$refs.newBoardListName;
-      if(value !== innerHTML){
-        await this.$store.dispatch('list/editList',{
+    async editListName() {
+      let { value, innerHTML } = this.$refs.newBoardListName;
+      if (value !== innerHTML) {
+        await this.$store.dispatch("list/editList", {
           boardId: this.data.boardId,
-          id:this.data.id,
-          name:value,
-        })
+          id: this.data.id,
+          name: value
+        });
       }
     }
   }

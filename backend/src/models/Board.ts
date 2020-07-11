@@ -8,8 +8,6 @@ import {
 } from 'sequelize-typescript';
 import { User } from './User';
 
-
-
 @Table({
     tableName:'board'
 })

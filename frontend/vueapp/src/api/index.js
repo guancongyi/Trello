@@ -98,3 +98,39 @@ export const putList = data => {
         }
     })
 }
+
+
+// card under list
+// 
+
+export const getCards = boardListId=>{
+    return axios({
+        url:'/card',
+        params:{
+            boardListId
+        }
+    })
+}
+
+// // add a new list
+// export const postList = data =>{
+//     return axios({
+//         method:'post',
+//         url:'/list',
+//         data
+//     })
+// }
+
+// // update a list
+// export const putList = data => {
+//     console.log(data)
+//     return axios({
+//         method:'put',
+//         url:'/list/'+data.id,
+//         data:{
+//             boardId:data.boardId,
+//             name:data.name,
+//             order:data.order
+//         }
+//     })
+// }

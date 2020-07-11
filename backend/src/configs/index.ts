@@ -15,6 +15,9 @@ const configs = {
         database:databaseConfig.development as IDatabaseConfig,
         jwt:{
             privateKey:'kkb'
+        },
+        storage:{
+            prefix: '/public/attachments'
         }
     },
     test:{
@@ -25,6 +28,9 @@ const configs = {
         database:databaseConfig.test as IDatabaseConfig,
         jwt:{
             privateKey:'kkb'
+        },
+        storage:{
+            prefix: '/public/attachments'
         }
     },
     production:{
@@ -35,6 +41,9 @@ const configs = {
         database:databaseConfig.production as IDatabaseConfig,
         jwt:{
             privateKey:'kkb'
+        },
+        storage:{
+            prefix: '/public/attachments'
         }
     }
 };
