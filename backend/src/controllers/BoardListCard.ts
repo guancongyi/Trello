@@ -39,9 +39,9 @@ export class BoardListCardController{
         await getAndValidateBoardList(boardListId, ctx.userInfo.id);
         let boardListCard = new BoardListCardModel();
         boardListCard.userId = ctx.userInfo.id;
-        boardListCard.boardListId = ctx.boardListId;
+        boardListCard.boardListId = boardListId;
         boardListCard.name = name;
-        boardListCard.description = description;
+        boardListCard.description = boardListCard.description||'';
         await boardListCard.save();
         ctx.status = 201;
         return boardListCard;

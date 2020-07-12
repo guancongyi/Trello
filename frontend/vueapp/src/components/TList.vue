@@ -1,6 +1,6 @@
 <template>
   <!--面板列表容器-->
-  <div class="list-wrap" :class="{'list-adding':false}" :data-order="data.order">
+  <div class="list-wrap" :class="{'list-adding':listAdding}" :data-order="data.order">
     <div class="list-placeholder" ref="listPlaceholder"></div>
 
     <div class="list" ref="list">
@@ -16,35 +16,23 @@
         </div>
       </div>
 
-      <div class="list-card" v-for="card of cards" :key="card.id">
-        <div v-if="card.coverPath"
-          class="list-card-cover"
-          :style="'background-image: url('+card.coverPath+');'"
-        ></div>
-        <div class="list-card-title">{{card.name}}</div>
-        <div class="list-card-badges">
-          <div class="badge" v-if="card.description">
-            <span class="icon icon-description"></span>
-          </div>
-          <div class="badge" v-if="card.commentCount>0">
-            <span class="icon icon-comment"></span>
-            <span class="text">{{card.commentCount}}</span>
-          </div>
-          <div class="badge" v-if="card.attachments.length > 0">
-            <span class="icon icon-attachment"></span>
-            <span class="text">{{card.attachments.length}}</span>
-          </div>
-        </div>
-      </div>
+      <t-card v-for="card of this.cards" :data="card" :key="card.id"></t-card>
 
       <div class="list-footer">
-        <div class="list-card-add">
+        <div class="list-card-add" @click="showListCardAddForm">
           <span class="icon icon-add"></span>
           <span>添加另一张卡片</span>
         </div>
+
+        <div class="list-cards">
+          <div class="list-card-add-form">
+            <input class="form-field-input" ref="addCardInput" placeholder="为这张卡片添加标题……" />
+          </div>
+        </div>
+
         <div class="list-add-confirm">
-          <button class="btn btn-success">添加卡片</button>
-          <span class="icon icon-close"></span>
+          <button class="btn btn-success" @click="addCard">添加卡片</button>
+          <span class="icon icon-close" @click="hideListCardAddForm"></span>
         </div>
       </div>
     </div>
@@ -52,6 +40,8 @@
 </template>
 
 <script>
+import TCard from "./TCard";
+
 export default {
   name: "TList",
   props: {
@@ -59,8 +49,12 @@ export default {
       type: Object
     }
   },
+  components: {
+    TCard
+  },
   data() {
     return {
+      listAdding: false,
       drag: {
         isDown: false,
         isDrag: false,
@@ -163,6 +157,29 @@ export default {
           name: value
         });
       }
+    },
+    showListCardAddForm() {
+      this.listAdding = true;
+      this.$nextTick(() => {
+        this.$refs.addCardInput.focus();
+      });
+    },
+    addCard() {
+      let { value } = this.$refs.addCardInput;
+      if (value.trim() !== "") {
+        this.$store.dispatch("card/postCard", {
+          boardListId: this.data.id,
+          name: this.$refs.addCardInput.value
+        });
+        this.$message.success("Successfully added card");
+        this.listAdding = false;
+      } else {
+        this.$refs.addCardInput.focus();
+      }
+    },
+    hideListCardAddForm() {
+      this.listAdding = false;
+      this.$refs.addCardInput.value = "";
     }
   }
 };

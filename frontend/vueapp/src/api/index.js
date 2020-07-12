@@ -101,8 +101,7 @@ export const putList = data => {
 
 
 // card under list
-// 
-
+// get all cards
 export const getCards = boardListId=>{
     return axios({
         url:'/card',
@@ -112,25 +111,26 @@ export const getCards = boardListId=>{
     })
 }
 
-// // add a new list
-// export const postList = data =>{
-//     return axios({
-//         method:'post',
-//         url:'/list',
-//         data
-//     })
-// }
+// post a new card
+export const postCard = data =>{
+    return axios({
+        method:'post',
+        url:'/card',
+        data
+    })
+}
 
-// // update a list
-// export const putList = data => {
-//     console.log(data)
-//     return axios({
-//         method:'put',
-//         url:'/list/'+data.id,
-//         data:{
-//             boardId:data.boardId,
-//             name:data.name,
-//             order:data.order
-//         }
-//     })
-// }
+// update a card
+export const putCard = data => {
+
+    return axios({
+        method:'put',
+        url:'/card/'+data.id,
+        data:{
+            boardListId:data.boardListId,
+            name:data.name,
+            description: data.description,
+            order:data.order
+        }
+    })
+}
